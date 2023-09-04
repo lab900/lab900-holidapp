@@ -3,8 +3,11 @@
 ## Description
 
 Wireframes
+
 ![Wireframes](docs/MVP%20Holiday%20app-wireframes.drawio.png)
+
 Architecture
+
 ![Architecture](docs/MVP%20Holiday%20app-architecture.drawio.png)
 
 ## Data model
@@ -72,5 +75,4 @@ TODO:
 
 - [ ] check auth
 - [ ] share dummy data with data model
-- [ ] create git repo
 - [ ] extend readme
