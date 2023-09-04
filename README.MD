@@ -20,7 +20,7 @@ Architecture
 2. Build functions
 
 ```bash
-cd holiday-app
+cd holiday-api
 npm run build
 cd ../
 cd integration-calendar
@@ -49,15 +49,16 @@ or use the runconfiguration in IntelliJ
 
 - http://localhost:4000 to view the emulator UI
 - http://localhost:5000 to view the app
-- http://127.0.0.1:5001/lab900-holidapp/us-central1/webAp to trigger the api function
-- http://127.0.0.1:5001/integration-paymo/us-central1/helloWorld to trigger the paymo integration
-- http://127.0.0.1:5001/integration-calendar/us-central1/helloWorld to trigger the Google Calendar integration
-- http://127.0.0.1:5001/integration-sheets/us-central1/helloWorld to trigger the Google Sheets integration
-- http://127.0.0.1:5001/notifications/us-central1/helloWorld to trigger the notifications integration
+- http://127.0.0.1:5001/lab900-holidapp/us-central1/webApi/api/v1/users to trigger the api function
+- http://127.0.0.1:5001/lab900-holidapp/us-central1/integrationPaymo to trigger the paymo integration
+- http://127.0.0.1:5001/lab900-holidapp/us-central1/integrationCalendar to trigger the Google Calendar integration
+- http://127.0.0.1:5001/lab900-holidapp/us-central1/integrationSheets to trigger the Google Sheets integration
+- http://127.0.0.1:5001/lab900-holidapp/us-central1/notifications to trigger the notifications integration
 
 TODO:
 
 - [ ] check auth
-- [ ] functions are not working
 - [ ] deploy to prod
 - [ ] share dummy data with data model
+- [ ] create git repo
+- [ ] extend readme
