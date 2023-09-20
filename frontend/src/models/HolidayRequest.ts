@@ -9,8 +9,8 @@ export interface HolidayRequest {
     days: number;
     from: Date;
     to: Date;
-    reply_message?: string;
     request_message?: string;
+    reply_message?: string;
     status: Status;
     requester: HolidappUser;
     approver: HolidappUser;

@@ -24,22 +24,22 @@ Architecture
 
 ```bash
 cd holidapp-api
-npm run build
+npm i && run build
 cd ../
 cd integration-calendar
-npm run build
+npm i && run build
 cd ../
 cd integration-paymo
-npm run build
+npm i && run build
 cd ../
 cd integration-sheets
-npm run build
+npm i && run build
 cd ../
 cd notifications
-npm run build
+npm i && run build
 cd ../
 cd frontend
-npm run build
+npm i && run build
 cd ../
 ```
 
