@@ -5,11 +5,12 @@
 Wireframes
 
 ![Wireframes](docs/MVP%20Holiday%20app-wireframes.drawio.png)
+https://app.diagrams.net/#G1ScMordqAbxYIFCs3XoXJIfnzKfJ3D_lv
 
 Architecture
 
 ![Architecture](docs/MVP%20Holiday%20app-architecture.drawio.png)
-
+https://app.diagrams.net/#G1ScMordqAbxYIFCs3XoXJIfnzKfJ3D_lv
 ## Data model
 
 ## Requisites
