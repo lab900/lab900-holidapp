@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/holidapp-api/lib" />
       <excludeFolder url="file://$MODULE_DIR$/integration-paymo/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/build" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

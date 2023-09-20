@@ -15,15 +15,15 @@ Architecture
 ## Requisites
 
 - [firebase CLI](https://firebase.google.com/docs/cli)
-- [Node.js](https://nodejs.org/en/)
+- [Node.js](https://nodejs.org/en/) v18.x or above
 
 ## Getting started
 
 1. Clone the repository
-2. Build functions
+2. Build functions and the frontend
 
 ```bash
-cd holiday-api
+cd holidapp-api
 npm run build
 cd ../
 cd integration-calendar
@@ -36,6 +36,9 @@ cd integration-sheets
 npm run build
 cd ../
 cd notifications
+npm run build
+cd ../
+cd frontend
 npm run build
 cd ../
 ```
@@ -66,13 +69,19 @@ In root folder, run
 firebase deploy
 ```
 
+if you only want to deploy the frontend (hosting), run
+
+```bash 
+firebase deploy --only hosting
+```
+
 See https://firebase.google.com/docs/cli#deployment for all details.
 Firebase console of this project can be found here: https://console.firebase.google.com/project/lab900-holidapp/overview
 
-The frontend can be found at https://lab900-holidapp.web.app/.
+The frontend can be found at https://lab900-holidapp.firebaseapp.com/.
 
 TODO:
 
-- [ ] check auth
+- [ ] check auth (oauth consent screen, identity aware proxy)
 - [ ] share dummy data with data model
 - [ ] extend readme

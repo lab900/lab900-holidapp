@@ -18,28 +18,22 @@ main.use(bodyParser.urlencoded({extended: false}));
 
 // initialize the database and the collection
 const db = admin.firestore();
-const userCollection = "users";
 
 // define google cloud function name
 interface User {
-    id: string,
-    email?: string,
+    email: string,
+    quota?: Map<number, number>,
     roles?: string[],
 }
 
-app.get("/users", async (req, res) => {
+app.get("/user/:email", async (req, res) => {
     try {
-        const userQuerySnapshot = await db.collection(userCollection).get();
-        const users: User[] = [];
-        userQuerySnapshot.forEach(
-            (doc) => {
-                users.push({
-                    id: doc.id,
-                    ...doc.data(),
-                } as User);
-            }
-        );
-        res.status(200).json(users);
+        const userQuerySnapshot =
+            await db.doc(`users/${req.params.email}`).get();
+        res.status(200).json({
+            email: userQuerySnapshot.id,
+            ...userQuerySnapshot.data(),
+        } as User);
     } catch (error) {
         res.status(500).send(error);
     }
