@@ -1,12 +1,7 @@
 import {auth, googleProvider} from "../config/firebase";
 import {onAuthStateChanged, signInWithPopup, signOut} from "firebase/auth";
 import {useEffect, useState} from "react";
-
-interface HolidappUser {
-    email: string;
-    quota: Map<number, number>
-    roles: string[];
-}
+import {HolidappUser} from "../models/HolidappUser";
 
 async function getUsers(email: string) {
     let baseUrl = `https://us-central1-lab900-holidapp.cloudfunctions.net`;
