@@ -1,10 +1,9 @@
-import { RequestHandler } from "express";
+import {RequestHandler} from "express";
 import * as admin from "firebase-admin";
-import { z } from "zod";
-import { RequestWithUser } from "../middleware/validate-token";
-import { Request } from "../models/Request";
+import {z} from "zod";
+import {RequestWithUser} from "../middleware/validate-token";
+import {Request} from "../models/Request";
 import * as functions from "firebase-functions";
-
 
 const CreateRequestSchema = z.object({
   from: z.string(),
@@ -17,7 +16,8 @@ export const createRequest: (db: admin.firestore.Firestore) => RequestHandler =
   (db) => async (req: RequestWithUser, res) => {
     try {
       const request = CreateRequestSchema.parse(req.body);
-        functions.logger.log("Creating holiday request for user: ", req.user?.email);
+      functions.logger.log("Creating holiday request for user: ",
+          req.user?.email);
       const requestData: Request = {
         ...request,
         status: "pending",
@@ -28,7 +28,7 @@ export const createRequest: (db: admin.firestore.Firestore) => RequestHandler =
       };
 
       const docRef = await db.collection("requests").add(requestData);
-      res.status(201).send({ id: docRef.id });
+      res.status(201).send({id: docRef.id});
     } catch (error) {
       res.status(500).send(error);
     }

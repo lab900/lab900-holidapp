@@ -7,5 +7,5 @@ export interface User {
     remaining: {
         year: number,
     }
-    roles: ['user', 'approver']
+    roles: ["user", "approver"]
 }
