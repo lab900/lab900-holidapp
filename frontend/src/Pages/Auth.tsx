@@ -27,7 +27,10 @@ export const Auth = () => {
         alignItems: "center",
       }}
     >
-      <div className="login__container">
+    <video width="200px" height="700px" autoPlay loop muted>
+        <source src="dancing.mp4" type="video/mp4"/>
+    </video>
+      <div className="login__container" style={{marginLeft: '20px'}}>
         <h1 style={{ marginBottom: "10px" }}>Lab900 - Holidays</h1>
         <Button onClick={signInWithGoogle}>Login with Google</Button>
       </div>
