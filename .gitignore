@@ -67,3 +67,4 @@ node_modules/
 
 #firestore data export
 firestore-data
+.idea/

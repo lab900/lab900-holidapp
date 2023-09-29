@@ -25,22 +25,22 @@ https://app.diagrams.net/#G1ScMordqAbxYIFCs3XoXJIfnzKfJ3D_lv
 
 ```bash
 cd holidapp-api
-npm i && run build
+npm i && npm run build
 cd ../
 cd integration-calendar
-npm i && run build
+npm i && npm run build
 cd ../
 cd integration-paymo
-npm i && run build
+npm i && npm run build
 cd ../
 cd integration-sheets
-npm i && run build
+npm i && npm run build
 cd ../
 cd notifications
-npm i && run build
+npm i && npm run build
 cd ../
 cd frontend
-npm i && run build
+npm i && npm run build
 cd ../
 ```
 
