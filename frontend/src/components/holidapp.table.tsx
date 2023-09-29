@@ -13,6 +13,7 @@ export interface HolidappTableProps {
     key: string;
     header: string;
   }[];
+  // todo add data rows from api
 }
 export default function HolidappTable(props: HolidappTableProps) {
   const mockDataRows = [
