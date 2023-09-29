@@ -17,14 +17,14 @@ export const createRequest: (db: admin.firestore.Firestore) => RequestHandler =
   (db) => async (req: RequestWithUser, res) => {
     try {
       const request = CreateRequestSchema.parse(req.body);
-        functions.logger.log("Creating Holiday Request", req.user);
+        functions.logger.log("Creating holiday request for user: ", req.user?.email);
       const requestData: Request = {
         ...request,
+        status: "pending",
         createdOn: new Date(),
         requester: req.user!.email,
         days: 0,
       };
-      functions.logger.log("Creating Holiday Request", request);
 
       const docRef = await db.collection("requests").add(requestData);
       res.status(201).send({ id: docRef.id });

@@ -4,6 +4,8 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import { createRequest } from "./handlers/create-request";
+import { updateRequest } from "./handlers/update-request";
+
 import { localAuth, RequestWithUser } from "./middleware/validate-token";
 
 // initialize firebase inorder to access its services
@@ -29,12 +31,12 @@ main.get("/user", async (req: RequestWithUser, res) => {
 main.post("/request", createRequest(db));
 
 // Update a request (approve, reject, delete)
-main.put("/request/:id", createRequest(db));
+main.put("/request/:id", updateRequest(db));
 
 // List all of my requests
-main.get("/requests/my", async (req, res) => {
+main.get("/requests/my", async (req: RequestWithUser, res) => {
   try {
-    const email = req.query.email;
+    const email = req.user?.email;
     const querySnapshot = await db
       .collection("requests")
       .where("requester", "==", email)

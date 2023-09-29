@@ -1,4 +1,5 @@
 export interface Request {
+    status: 'pending' | 'approved' | 'rejected',
     answeredOn?: Date,
     approver?: string, // User.email
     requesterRemark?: string
