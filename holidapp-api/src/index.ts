@@ -20,7 +20,6 @@ main.use(localAuth(db));
 main.use(bodyParser.json());
 main.use(bodyParser.urlencoded({ extended: false }));
 
-
 // Get Authenticated User
 main.get("/user", async (req: RequestWithUser, res) => {
   res.status(200).send({ user: req?.user });
