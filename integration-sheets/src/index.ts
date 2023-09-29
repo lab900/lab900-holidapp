@@ -5,9 +5,13 @@ import * as functions from "firebase-functions";
 //
 import {google} from "googleapis";
 
+
 export default async function getData(): Promise<any> {
   const auth = new google.auth.JWT({
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    key: token.private_key,
+    email: token.client_email,
+    keyId: token.private_key_id,
   });
   const sheets = google.sheets({version: "v4", auth});
   const res = await sheets.spreadsheets.values.get({
