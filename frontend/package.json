@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@carbon/icons-react": "^11.27.0",
     "@carbon/react": "^1.38.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -44,7 +45,8 @@
     ]
   },
   "devDependencies": {
-    "react-router-dom": "^6.16.0",
-    "prettier": "3.0.3"
+    "@types/carbon__icons-react": "^11.26.1",
+    "prettier": "3.0.3",
+    "react-router-dom": "^6.16.0"
   }
 }
