@@ -10,4 +10,5 @@ export interface Request {
     createdOn: Date,
     days: number,
     halfDays: string[]
+    year: number
 }

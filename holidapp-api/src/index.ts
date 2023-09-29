@@ -34,12 +34,17 @@ main.post("/request", createRequest(db));
 main.put("/request/:id", updateRequest(db));
 
 // List all of my requests
-main.get("/requests/my", async (req: RequestWithUser, res) => {
+main.get("/requests/my/:year", async (req: RequestWithUser, res) => {
   try {
     const email = req.user?.email;
+    const year = Number(req.params.year);
+    functions.logger.info('Looking for requestst in db, email: ', email);
+    functions.logger.info('Looking for requestst in db, year: ', year);
+
     const querySnapshot = await db
       .collection("requests")
       .where("requester", "==", email)
+      .where("year", "==", year)
       .get();
     const requests = querySnapshot.docs.map((doc) => doc.data());
     res.status(200).send(requests);

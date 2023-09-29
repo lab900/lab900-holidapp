@@ -22,6 +22,7 @@ export const createRequest: (db: admin.firestore.Firestore) => RequestHandler =
         ...request,
         status: "pending",
         createdOn: new Date(),
+        year: new Date().getFullYear(),
         requester: req.user!.email,
         days: 0,
       };
