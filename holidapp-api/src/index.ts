@@ -6,7 +6,7 @@ import * as cors from "cors";
 import {createRequest} from "./handlers/create-request";
 import {updateRequest} from "./handlers/update-request";
 
-import { validateFirebaseIdToken, RequestWithUser } from "./middleware/validate-token";
+import {RequestWithUser, localAuth} from "./middleware/validate-token";
 
 // initialize firebase inorder to access its services
 admin.initializeApp(functions.config().firebase);
@@ -18,7 +18,7 @@ const db = admin.firestore();
 
 // Add the middleware to your routes
 main.use(cors({ origin: true }));
-main.use(validateFirebaseIdToken(db));
+main.use(localAuth(db));
 main.use(bodyParser.json());
 main.use(bodyParser.urlencoded({extended: false}));
 
