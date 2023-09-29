@@ -57,9 +57,15 @@ const openSheet = async (sheetId: string, holidayRequest: Request) => {
     }
     const employeeRow = findEmployeeRow(worksheetData, holidayRequest.requester);
 
-    // Get the columns for the dates between from and to
-  }
+    // Get all days in this month that are between from and to
 
+    var dateColumn = findDateColumn(worksheetData, new Date(holidayRequest.from));
+      var newCellValue = getCellValueForHolidayStatus(holidayRequest.status);
+
+      // Get the columns for the dates between from and to
+
+
+  }
 
   // for each month between from and to, do the update:
   // get the worksheet for the month
@@ -68,6 +74,17 @@ const openSheet = async (sheetId: string, holidayRequest: Request) => {
   // eslint-disable-next-line max-len
   // update the values for the columns to HOL / blank / ... based on the holiday request status
 };
+
+const getDatesInPeriodAndMonth = (month: number, from: Date, to: Date): [] => {
+    const current = new Date(from);
+    const days= [];
+    while (current.getMonth() == from.getMonth() && current.getDay() <= to.getDay()) {
+        // eslint-disable-next-line max-len
+        days.push(current);
+        current.setDate(current.getDate() + 1);
+    }
+    return days;
+}
 
 const getMonthYearNamesForDates = (from: Date, to: Date): string[] => {
   const monthYearNames = [];
@@ -81,7 +98,6 @@ const getMonthYearNamesForDates = (from: Date, to: Date): string[] => {
   return monthYearNames;
 };
 
-
 // eslint-disable-next-line camelcase,max-len
 const findEmployeeRow = (worksheetData: any[][], employeeEmail: string): number => {
   const employeeEmailColumnIndex = 1;
@@ -89,13 +105,20 @@ const findEmployeeRow = (worksheetData: any[][], employeeEmail: string): number 
   const employeeEmailColumn = worksheetData.map((row) => row[employeeEmailColumnIndex]);
   return employeeEmailColumn.indexOf(employeeEmail);
 };
-//
-// const findDateColumns = (worksheet, from: date, to: date): int[] => {
-//
-// }
 
-// eslint-disable-next-line camelcase
-const openWorkSheet = async (sheets: sheets_v4.Sheets, worksheetName: string):Promise<any[][] | null | undefined> => {
+const findDateColumn = (worksheetData: any[][], date: Date): number | null => {
+
+    // convert the date in this format: dd/MM/yyyy
+    var convertedDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+    // Checking date format: "05/09/2023"
+
+    const datesRow = 2;
+    const datesRowData = worksheetData[datesRow];
+    return datesRowData.indexOf(convertedDate);
+};
+
+// eslint-disable-next-line camelcase,max-len
+ const openWorkSheet = async (sheets: sheets_v4.Sheets, worksheetName: string):Promise<any[][] | null | undefined> => {
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: OFFICE_SHEET,
     range: worksheetName,
@@ -103,18 +126,9 @@ const openWorkSheet = async (sheets: sheets_v4.Sheets, worksheetName: string):Pr
   return res.data.values;
 };
 
-// const getCellValueForHolidayStatus(status: string): string => {
-//     // approved -> HOL
-//     // rejected -> blank
-// }
-//
-//
-// const openWorkSheet = (sheets, worksheetName: string): worksheet => {
-//
-//     // open the google sheet and find the right worksheet based on the date
-//
-// }
-
+const getCellValueForHolidayStatus(status: string): string => {
+    return status === "approved" ? "HOL" : "";
+}
 
 export interface Request {
     status: "pending" | "approved" | "rejected",
