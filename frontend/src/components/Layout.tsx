@@ -1,23 +1,43 @@
 import {
+  Content,
   Header,
-  HeaderMenuItem,
+  HeaderGlobalAction,
+  HeaderGlobalBar,
   HeaderName,
-  HeaderNavigation,
 } from "@carbon/react";
+import {  Outlet, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import {  Logout } from "@carbon/icons-react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, logout } from "../firebase";
 
 export default function Layout() {
-  return (
-    <div className="Layout">
-      <Header aria-label="Lab900 - Holidays">
-        <HeaderName href="#" prefix="Lab900">
-          Holidays
-        </HeaderName>
-        <HeaderNavigation aria-label="IBM [Platform]">
-          <HeaderMenuItem href="#">My request</HeaderMenuItem>
-          <HeaderMenuItem href="#">Link 2</HeaderMenuItem>
-          <HeaderMenuItem href="#">Link 3</HeaderMenuItem>
-        </HeaderNavigation>
+  const [user, loading] = useAuthState(auth);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (loading) {
+      // maybe trigger a loading screen
+      return;
+    }
+    if (!user) navigate("/login");
+  }, [user, loading]);
+
+  return !user ? (
+    <>Loading...</>
+  ) : (
+    <>
+      <Header style={{background: '#c0eae8'}} aria-label="Lab900 - Holidays">
+        <img style={{marginLeft: 20}} src="https://lab900.com/assets/svg/logo-mono-dark.svg" alt="Lab900" width={30} />
+        <HeaderName prefix="Lab900">Holidays</HeaderName>
+        <HeaderGlobalBar>
+          <HeaderGlobalAction aria-label="Logout" onClick={logout}>
+            <Logout size={20} />
+          </HeaderGlobalAction>
+        </HeaderGlobalBar>
       </Header>
-    </div>
+      <Content>
+        <Outlet />
+      </Content>
+    </>
   );
 }
