@@ -29,6 +29,7 @@ export default function Layout() {
   ) : (
     <>
       <Header aria-label="Lab900 - Holidays">
+        <img style={{marginLeft: 20}} src="https://lab900.com/assets/svg/logo-mono-dark.svg" alt="Lab900" width={30} />
         <HeaderName prefix="Lab900">Holidays</HeaderName>
         <HeaderGlobalBar>
           <HeaderGlobalAction aria-label="Logout" onClick={logout}>
