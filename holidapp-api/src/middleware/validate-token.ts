@@ -58,6 +58,7 @@ export const validateFirebaseIdToken: (db: admin.firestore.Firestore) => Request
 
   export const localAuth: (db: admin.firestore.Firestore) => RequestHandler = (db) => async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
+      functions.logger.info('Looking for user in db...');
       const userSnapshot = await db.collection('users').doc("luis.santos@lab900.com").get();
       if (!userSnapshot.exists) {
         functions.logger.error('No user found in the database');
