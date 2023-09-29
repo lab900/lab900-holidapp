@@ -1,12 +1,18 @@
-import React from "react";
-import "./App.scss";
+import React from 'react';
+import './App.scss';
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import Layout from "../components/Layout";
+import {Auth} from "../components/Auth";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">{/*<Auth/>*/}</header>
-    </div>
-  );
+export default function App() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Auth />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
-export default App;
