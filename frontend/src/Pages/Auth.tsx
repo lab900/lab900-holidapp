@@ -43,7 +43,7 @@ export const Auth = () => {
   }, []);
 
   let template;
-  if (auth?.currentUser == undefined) {
+  if (auth?.currentUser == null) {
     template = (
       <>
         <Button onClick={signInWithGoogle}> Signin with google</Button>
