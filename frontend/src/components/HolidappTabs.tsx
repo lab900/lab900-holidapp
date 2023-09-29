@@ -2,6 +2,8 @@ import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@carbon/react";
 import HolidappTable from "../components/HolidappTable";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
 
 interface HolidappTabsProps {}
 
@@ -33,17 +35,37 @@ export default function HolidappTabs(props: HolidappTabsProps) {
   );
 
   const [selectedYear, setSelectedYear] = useState(currentYear);
-  const [remainingVacationDays] = useState(20);
+  const [remainingVacationDays, setRemainingVacationDays] = useState(20);
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [user, loading] = useAuthState(auth);
+
+  const requestsUrl =
+    "https://us-central1-lab900-holidapp.cloudfunctions.net/webApi/requests/my";
 
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => {
-        console.log("response", response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    setIsLoading(true);
+
+    user?.getIdToken().then((token) => {
+      console.log("token", token);
+      axios
+        .get(`${requestsUrl}/${selectedYear}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("response", response);
+          setData(response.data);
+          setRemainingVacationDays(18);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    });
   }, [selectedYear]);
 
   const onYearClicked = (year: number) => () => {
@@ -60,7 +82,8 @@ export default function HolidappTabs(props: HolidappTabsProps) {
       <TabPanels>
         {years.map((year) => (
           <TabPanel>
-            <HolidappTable headers={headers} />
+            {isLoading && <div>Loading...</div>}
+            {!isLoading && <HolidappTable data={data} headers={headers} />}
           </TabPanel>
         ))}
       </TabPanels>
