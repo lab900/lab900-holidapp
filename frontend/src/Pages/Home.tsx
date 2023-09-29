@@ -1,5 +1,5 @@
 import React from "react";
-import HolidappTabs from "../components/holidapp.tabs";
+import HolidappTabs from "../components/HolidappTabs";
 
 export default function Home() {
   return (

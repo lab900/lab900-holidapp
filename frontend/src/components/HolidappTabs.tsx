@@ -1,5 +1,5 @@
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@carbon/react";
-import HolidappTable from "../components/holidapp.table";
+import HolidappTable from "../components/HolidappTable";
 import React from "react";
 
 interface HolidappTabsProps {}
