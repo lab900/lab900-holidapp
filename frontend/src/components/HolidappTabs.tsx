@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
+import AddHolidayRequest from "./AddHolidayRequest";
 
 interface HolidappTabsProps {}
 
@@ -38,7 +39,7 @@ export default function HolidappTabs(props: HolidappTabsProps) {
   const [remainingVacationDays, setRemainingVacationDays] = useState(20);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   const requestsUrl =
     "https://us-central1-lab900-holidapp.cloudfunctions.net/webApi/requests/my";
@@ -54,7 +55,6 @@ export default function HolidappTabs(props: HolidappTabsProps) {
           },
         })
         .then((response) => {
-          console.log("response", response);
           setData(response.data);
           setRemainingVacationDays(18);
         })
@@ -72,21 +72,26 @@ export default function HolidappTabs(props: HolidappTabsProps) {
   };
 
   return (
-    <Tabs>
-      <TabList aria-label="List of tabs">
-        {years.map((year) => (
-          <Tab onClick={onYearClicked(year)}>{year}</Tab>
-        ))}
-      </TabList>
-      <TabPanels>
-        {years.map((year) => (
-          <TabPanel>
-            {isLoading && <div>Loading...</div>}
-            {!isLoading && <HolidappTable data={data} headers={headers} />}
-          </TabPanel>
-        ))}
-      </TabPanels>
-      <div>Remaining: {remainingVacationDays}</div>
-    </Tabs>
+    <>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <AddHolidayRequest />
+      </div>
+      <Tabs>
+        <TabList aria-label="List of tabs">
+          {years.map((year) => (
+            <Tab onClick={onYearClicked(year)}>{year}</Tab>
+          ))}
+        </TabList>
+        <TabPanels>
+          {years.map((year) => (
+            <TabPanel>
+              {isLoading && <div>Loading...</div>}
+              {!isLoading && <HolidappTable data={data} headers={headers} />}
+            </TabPanel>
+          ))}
+        </TabPanels>
+        <div>Remaining: {remainingVacationDays}</div>
+      </Tabs>
+    </>
   );
 }

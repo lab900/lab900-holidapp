@@ -28,33 +28,6 @@ export interface HolidappTableProps {
   }[];
 }
 export default function HolidappTable(props: HolidappTableProps) {
-  // const mockDataRows = [
-  //   {
-  //     id: "a",
-  //     requester: "Geralt of Rivia",
-  //     from: "15/10/2023",
-  //     to: "27/12/2023",
-  //     status: "Approved",
-  //     amountOfDaysTaken: "2",
-  //   },
-  //   {
-  //     id: "b",
-  //     requester: "Clark Kent",
-  //     from: "15/10/2023",
-  //     to: "27/12/2023",
-  //     status: "Approved",
-  //     amountOfDaysTaken: "6",
-  //   },
-  //   {
-  //     id: "c",
-  //     requester: "Johny Bravo",
-  //     from: "15/10/2023",
-  //     to: "27/12/2023",
-  //     status: "Approved",
-  //     amountOfDaysTaken: "1",
-  //   },
-  // ];
-
   return (
     <DataTable rows={props.data} headers={props.headers}>
       {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
