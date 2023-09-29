@@ -1,6 +1,7 @@
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@carbon/react";
 import HolidappTable from "../components/HolidappTable";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 interface HolidappTabsProps {}
 
@@ -24,8 +25,6 @@ export default function HolidappTabs(props: HolidappTabsProps) {
     },
   ];
 
-  const [remainingVacationDays] = useState(20);
-
   const startYear = 2023;
   const currentYear = new Date().getFullYear();
   const years = Array.from(
@@ -33,9 +32,22 @@ export default function HolidappTabs(props: HolidappTabsProps) {
     (_, i) => startYear + i,
   );
 
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [remainingVacationDays] = useState(20);
+
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => {
+        console.log("response", response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [selectedYear]);
+
   const onYearClicked = (year: number) => () => {
-    /* TODO: *Gino-29 Sep 2023* do other request for data? send output? */
-    console.log(year);
+    setSelectedYear(year);
   };
 
   return (
