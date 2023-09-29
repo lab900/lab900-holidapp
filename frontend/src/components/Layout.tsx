@@ -1,32 +1,37 @@
 import {
   Content,
-  Header, HeaderGlobalAction, HeaderGlobalBar,
+  Header,
+  HeaderGlobalAction,
+  HeaderGlobalBar,
   HeaderMenuItem,
   HeaderName,
   HeaderNavigation,
 } from "@carbon/react";
-import { Link, Outlet } from "react-router-dom";
-import React from "react";
-import { Settings, Logout } from '@carbon/icons-react';
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Settings, Logout } from "@carbon/icons-react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, logout } from "../firebase";
 
 export default function Layout() {
-  return (
+  const [user, loading] = useAuthState(auth);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (loading) {
+      // maybe trigger a loading screen
+      return;
+    }
+    if (!user) navigate("/login");
+  }, [user, loading]);
+
+  return !user ? (
+    <>Loading...</>
+  ) : (
     <>
       <Header aria-label="Lab900 - Holidays">
         <HeaderName prefix="Lab900">Holidays</HeaderName>
-        <HeaderNavigation aria-label="IBM [Platform]">
-          <HeaderMenuItem>
-            <Link to={"/"}>My request</Link>
-          </HeaderMenuItem>
-          <HeaderMenuItem>
-            <Link to={"/auth"}>Auth</Link>
-          </HeaderMenuItem>
-        </HeaderNavigation>
         <HeaderGlobalBar>
-          <HeaderGlobalAction aria-label="Admin">
-            <Settings size={20} />
-          </HeaderGlobalAction>
-          <HeaderGlobalAction aria-label="Logout">
+          <HeaderGlobalAction aria-label="Logout" onClick={logout}>
             <Logout size={20} />
           </HeaderGlobalAction>
         </HeaderGlobalBar>
