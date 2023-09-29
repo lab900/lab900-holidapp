@@ -47,7 +47,6 @@ export default function HolidappTabs(props: HolidappTabsProps) {
     setIsLoading(true);
 
     user?.getIdToken().then((token) => {
-      console.log("token", token);
       axios
         .get(`${requestsUrl}/${selectedYear}`, {
           headers: {
@@ -66,7 +65,7 @@ export default function HolidappTabs(props: HolidappTabsProps) {
           setIsLoading(false);
         });
     });
-  }, [selectedYear]);
+  }, [selectedYear, user]);
 
   const onYearClicked = (year: number) => () => {
     setSelectedYear(year);
