@@ -2,6 +2,7 @@ import {auth, googleProvider} from "../config/firebase";
 import {onAuthStateChanged, signInWithPopup, signOut} from "firebase/auth";
 import {useEffect, useState} from "react";
 import {HolidappUser} from "../models/HolidappUser";
+import { Button } from '@carbon/react';
 
 async function getUsers(email: string) {
     let baseUrl = `https://us-central1-lab900-holidapp.cloudfunctions.net`;
@@ -45,8 +46,8 @@ export const Auth = () => {
     if (auth?.currentUser == undefined) {
         template = (
             <>
-                <button onClick={signInWithGoogle}> Signin with google</button>
-                <button onClick={logOut}> logOut</button>
+                <Button onClick={signInWithGoogle}> Signin with google</Button>
+                <Button onClick={logOut}> logOut</Button>
             </>
         )
     } else {
