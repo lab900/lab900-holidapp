@@ -1,4 +1,4 @@
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@carbon/react";
+import { Tabs, TabList, Tab, TabPanels } from "@carbon/react";
 import HolidappTable from "../components/HolidappTable";
 import React, { useState } from "react";
 
@@ -6,10 +6,6 @@ interface HolidappTabsProps {}
 
 export default function HolidappTabs(props: HolidappTabsProps) {
   const headers = [
-    {
-      key: "requester",
-      header: "Requester",
-    },
     {
       key: "from",
       header: "From",
@@ -28,23 +24,25 @@ export default function HolidappTabs(props: HolidappTabsProps) {
     },
   ];
 
-  const [years, setYears] = useState([2023, 2024].sort((a, b) => a - b));
+  const [remainingVacationDays] = useState(20);
 
-  const addTab = () => {
-    setYears([...years, years[years.length - 1] + 1]);
-  };
-
+  const startYear = 2023;
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(
+    { length: currentYear - startYear + 2 },
+    (_, i) => startYear + i,
+  );
   return (
     <Tabs>
       <TabList aria-label="List of tabs">
         {years.map((year) => (
           <Tab>{year}</Tab>
         ))}
-        <Tab onClick={addTab}>+</Tab>
       </TabList>
       <TabPanels>
         <HolidappTable headers={headers} />
       </TabPanels>
+      <div>Remaining: {remainingVacationDays}</div>
     </Tabs>
   );
 }
