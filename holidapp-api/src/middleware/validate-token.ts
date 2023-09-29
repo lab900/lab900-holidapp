@@ -12,7 +12,7 @@ export interface RequestWithUser extends Request {
 // The Firebase ID token needs to be passed as a Bearer token in the Authorization HTTP header like this:
 // `Authorization: Bearer <Firebase ID Token>`.
 // when decoded successfully, the ID Token content will be added as `req.user`.
-export const validateFirebaseIdToken: RequestHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+export const validateFirebaseIdToken: (db: admin.firestore.Firestore) => RequestHandler = (db) => async (req: RequestWithUser, res: Response, next: NextFunction) => {
     functions.logger.log('Check if request is authorized with Firebase ID token');
   
     if ((!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) &&
@@ -55,3 +55,20 @@ export const validateFirebaseIdToken: RequestHandler = async (req: RequestWithUs
       return;
     }
   };
+
+  export const localAuth: (db: admin.firestore.Firestore) => RequestHandler = (db) => async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const userSnapshot = await db.collection('users').doc("luis.santos@lab900.com").get();
+      if (!userSnapshot.exists) {
+        functions.logger.error('No user found in the database');
+        res.status(403).send('Unauthorized');
+        return;
+      }
+      req.user = userSnapshot.data() as User;
+      functions.logger.info('User found in the database', req.user);
+      next();
+    } catch (error) {
+      functions.logger.error('Error while fetching user from the database:', error);
+      res.status(403).send('Unauthorized');
+    }
+  }

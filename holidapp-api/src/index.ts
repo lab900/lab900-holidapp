@@ -4,7 +4,7 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import { createRequest } from "./handlers/create-request";
-import { validateFirebaseIdToken } from "./middleware/validate-token";
+import { validateFirebaseIdToken, localAuth } from "./middleware/validate-token";
 
 // initialize firebase inorder to access its services
 admin.initializeApp(functions.config().firebase);
@@ -19,7 +19,7 @@ main.use(bodyParser.json());
 main.use(bodyParser.urlencoded({extended: false}));
 
 // Add the middleware to your routes
-app.use(validateFirebaseIdToken);
+app.use(localAuth);
 
 // initialize the database and the collection
 const db = admin.firestore();
