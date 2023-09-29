@@ -7,11 +7,6 @@ import {
 } from "firebase/auth";
 import {
   getFirestore,
-  query,
-  getDocs,
-  collection,
-  where,
-  addDoc,
 } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyAEwjXYGUaBIb6pi6xNK7kNOZfb2uzjOMI",

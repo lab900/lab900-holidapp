@@ -3,13 +3,11 @@ import {
   Header,
   HeaderGlobalAction,
   HeaderGlobalBar,
-  HeaderMenuItem,
   HeaderName,
-  HeaderNavigation,
 } from "@carbon/react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import {  Outlet, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
-import { Settings, Logout } from "@carbon/icons-react";
+import {  Logout } from "@carbon/icons-react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, logout } from "../firebase";
 
@@ -28,7 +26,7 @@ export default function Layout() {
     <>Loading...</>
   ) : (
     <>
-      <Header aria-label="Lab900 - Holidays">
+      <Header style={{background: '#c0eae8'}} aria-label="Lab900 - Holidays">
         <img style={{marginLeft: 20}} src="https://lab900.com/assets/svg/logo-mono-dark.svg" alt="Lab900" width={30} />
         <HeaderName prefix="Lab900">Holidays</HeaderName>
         <HeaderGlobalBar>
