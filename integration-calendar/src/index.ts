@@ -5,6 +5,6 @@ import * as functions from "firebase-functions";
 //
 export const integrationCalendar =
     functions.https.onRequest((request, response) => {
-        functions.logger.info("Hello logs!", {structuredData: true});
-        response.send("Hello from Integration Calendar!");
+      functions.logger.info("Hello logs!", {structuredData: true});
+      response.send("Hello from Integration Calendar!");
     });

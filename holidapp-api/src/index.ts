@@ -21,22 +21,22 @@ const db = admin.firestore();
 
 // define google cloud function name
 interface User {
-    email: string,
-    quota?: Map<number, number>,
-    roles?: string[],
+  email: string,
+  quota?: Map<number, number>,
+  roles?: string[],
 }
 
 app.get("/user/:email", async (req, res) => {
-    try {
-        const userQuerySnapshot =
-            await db.doc(`users/${req.params.email}`).get();
-        res.status(200).json({
-            email: userQuerySnapshot.id,
-            ...userQuerySnapshot.data(),
-        } as User);
-    } catch (error) {
-        res.status(500).send(error);
-    }
+  try {
+    const userQuerySnapshot =
+      await db.doc(`users/${req.params.email}`).get();
+    res.status(200).json({
+      email: userQuerySnapshot.id,
+      ...userQuerySnapshot.data(),
+    } as User);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 export const webApi = functions.https.onRequest(main);
