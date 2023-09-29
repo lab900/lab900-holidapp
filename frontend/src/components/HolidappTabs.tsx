@@ -1,4 +1,4 @@
-import { Tabs, TabList, Tab, TabPanels } from "@carbon/react";
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@carbon/react";
 import HolidappTable from "../components/HolidappTable";
 import React, { useState } from "react";
 
@@ -32,15 +32,25 @@ export default function HolidappTabs(props: HolidappTabsProps) {
     { length: currentYear - startYear + 2 },
     (_, i) => startYear + i,
   );
+
+  const onYearClicked = (year: number) => () => {
+    /* TODO: *Gino-29 Sep 2023* do other request for data? send output? */
+    console.log(year);
+  };
+
   return (
     <Tabs>
       <TabList aria-label="List of tabs">
         {years.map((year) => (
-          <Tab>{year}</Tab>
+          <Tab onClick={onYearClicked(year)}>{year}</Tab>
         ))}
       </TabList>
       <TabPanels>
-        <HolidappTable headers={headers} />
+        {years.map((year) => (
+          <TabPanel>
+            <HolidappTable headers={headers} />
+          </TabPanel>
+        ))}
       </TabPanels>
       <div>Remaining: {remainingVacationDays}</div>
     </Tabs>
