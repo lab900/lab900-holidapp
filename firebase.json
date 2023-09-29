@@ -87,10 +87,10 @@
     {
       "database": "lab900-holidapp"
     }
-  ],
-  "emulators": {
-    "firestore": {
-      "port": "5002"
+    ],
+    "emulators": {
+      "pubsub": {
+        "port": 7001
+      }
     }
-  }
 }
