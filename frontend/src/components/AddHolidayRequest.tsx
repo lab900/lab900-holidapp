@@ -11,8 +11,15 @@ import {
   ModalHeader,
 } from "@carbon/react";
 import ReactDOM from "react-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
+import axios from "axios";
+
+const RequestUrl =
+  "https://us-central1-lab900-holidapp.cloudfunctions.net/webApi/request";
 
 export default function AddHolidayRequest() {
+  const [user] = useAuthState(auth);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fromDate, setFormDate] = useState<Date[]>();
@@ -25,7 +32,11 @@ export default function AddHolidayRequest() {
       {typeof document === "undefined"
         ? null
         : ReactDOM.createPortal(
-            <ComposedModal open={open} onClose={() => setOpen(false)}>
+            <ComposedModal
+              open={open}
+              onClose={() => setOpen(false)}
+              preventCloseOnClickOutside={true}
+            >
               <Loading
                 id={"addHolidayRequest-Loading"}
                 className={"add-holiday-request-loading"}
@@ -88,7 +99,35 @@ export default function AddHolidayRequest() {
                   kind="primary"
                   onClick={() => {
                     setLoading(true);
-                    // TODO: save holiday request to database
+                    if (!fromDate || !toDate) {
+                      // TODO: Add Error Handling
+                      return;
+                    }
+
+                    user?.getIdToken().then((token) => {
+                      axios
+                        .post(
+                          `${RequestUrl}`,
+                          {
+                            from: fromDate[0].toLocaleString().split(",")[0],
+                            to: toDate[0].toLocaleString().split(",")[0],
+                          },
+                          {
+                            headers: {
+                              Authorization: `Bearer ${token}`,
+                            },
+                          },
+                        )
+                        .then((response) => {
+                          console.log("response", response);
+                        })
+                        .catch((error) => {
+                          console.error(error);
+                        })
+                        .finally(() => {
+                          setLoading(false);
+                        });
+                    });
                     // setOpen(false);
                   }}
                 >
