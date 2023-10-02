@@ -5,6 +5,6 @@ import * as functions from "firebase-functions";
 //
 export const integrationSheets =
     functions.https.onRequest((request, response) => {
-        functions.logger.info("Hello logs!", {structuredData: true});
-        response.send("Hello from Integration Sheets!");
+      functions.logger.info("Hello logs!", {structuredData: true});
+      response.send("Hello from Integration Sheets!");
     });

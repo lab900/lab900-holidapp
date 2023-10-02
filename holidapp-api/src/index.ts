@@ -43,10 +43,10 @@ main.get("/requests/my/:year", async (req: RequestWithUser, res) => {
 
     const querySnapshot = await db
         .collection("requests")
-        .where("requester", "==", email)
+  .where("requester", "==", email)
         .where("year", "==", year)
-        .get();
-    const requests = querySnapshot.docs.map((doc) => doc.data());
+  .get();
+  const requests = querySnapshot.docs.map((doc) => doc.data());
     res.status(200).send(requests);
   } catch (error) {
     res.status(500).send(error);
@@ -56,11 +56,12 @@ main.get("/requests/my/:year", async (req: RequestWithUser, res) => {
 // List all open requests (for approvers)
 main.get("/requests/open", async (req, res) => {
   try {
-    const querySnapshot = await db
-        .collection("requests")
+    const querySnapshot =
+      await db
+    .collection("requests")
         .where("answeredOn", "==", null)
-        .get();
-    const requests = querySnapshot.docs.map((doc) => doc.data());
+      .get();
+      const requests = querySnapshot.docs.map((doc) => doc.data());
     res.status(200).send(requests);
   } catch (error) {
     res.status(500).send(error);
