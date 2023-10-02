@@ -6,6 +6,7 @@ import { ApprovedHoliday } from './approved-holiday.model';
 
 const PUB_SUB_DATA_EXPORT_TOPIC = 'holidapp-updates';
 
+// For testing locally
 // export const generateMessage = functions.https.onRequest(
 //   (request, response) => {
 //     functions.logger.info("sending...!", { structuredData: true });
