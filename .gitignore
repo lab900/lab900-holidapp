@@ -9,6 +9,7 @@ firebase-debug.*.log*
 
 # Firebase cache
 .firebase/
+firebase-export-*/
 
 # Firebase config
 
@@ -67,4 +68,6 @@ node_modules/
 
 #firestore data export
 firestore-data
-.idea/
+
+# Intellij IDEA
+/.idea/
