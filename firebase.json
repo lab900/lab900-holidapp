@@ -87,10 +87,10 @@
     {
       "database": "lab900-holidapp"
     }
-    ],
-    "emulators": {
-      "pubsub": {
-        "port": 7001
-      }
+  ],
+  "emulators": {
+    "pubsub": {
+      "port": 7001
     }
+  }
 }
