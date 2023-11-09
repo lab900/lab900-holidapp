@@ -19,6 +19,23 @@ const auth = new google.auth.JWT({
 // // https://firebase.google.com/docs/functions/typescript
 //
 
+function getData(): Promise<any> {
+    const sheets = google.sheets({version: "v4", auth});
+    const res = await sheets.spreadsheets.values.get({
+        spreadsheetId: "1aZ9tHcpQiqDbCmC0lowaRqMUm00oA5bCOMsBxFEOqAU",
+        range: "September",
+    });
+    const rows = res.data.values;
+    if (!rows || rows.length === 0) {
+        return Promise.reject("no data found.");
+    }
+    rows.forEach((row: any[]) => {
+        // Print columns A and E, which correspond to indices 0 and 4.
+        console.log(`${row[0]}, ${row[1]}`);
+    });
+    return Promise.resolve(rows);
+}
+
 
 export const integrationSheets =
     functions.https.onRequest((request, response) => {
