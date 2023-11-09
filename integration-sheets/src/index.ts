@@ -1,6 +1,6 @@
+/* eslint-disable camelcase */
 import * as functions from "firebase-functions";
-import {PubSub} from "@google-cloud/pubsub";
-import {google, sheets_v4} from "googleapis";
+import {google} from "googleapis";
 
 const PUB_SUB_DATA_EXPORT_TOPIC = "holidapp-updates";
 const OFFICE_SHEET = "1aZ9tHcpQiqDbCmC0lowaRqMUm00oA5bCOMsBxFEOqAU";
@@ -14,39 +14,37 @@ const auth = new google.auth.JWT({
   keyId: "44004405bdc8aad8ff17c855ab041b044fa59a62",
 });
 
-
-// // Start writing functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-
-function getData(): Promise<any> {
-    const sheets = google.sheets({version: "v4", auth});
-    const res = await sheets.spreadsheets.values.get({
-        spreadsheetId: "1aZ9tHcpQiqDbCmC0lowaRqMUm00oA5bCOMsBxFEOqAU",
-        range: "September",
-    });
-    const rows = res.data.values;
-    if (!rows || rows.length === 0) {
-        return Promise.reject("no data found.");
-    }
-    rows.forEach((row: any[]) => {
-        // Print columns A and E, which correspond to indices 0 and 4.
-        console.log(`${row[0]}, ${row[1]}`);
-    });
-    return Promise.resolve(rows);
+/**
+ * @return {Promise<any>}
+ */
+async function getData(): Promise<any> {
+  console.log("MKLJ");
+  const sheets = google.sheets({version: "v4", auth});
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId: OFFICE_SHEET,
+    range: "October 2023",
+  });
+  const rows = res.data.values;
+  if (!rows || rows.length === 0) {
+    return Promise.reject(new Error("no data found."));
+  }
+  rows.forEach((row: any[]) => {
+    // Print columns A and E, which correspond to indices 0 and 4.
+    console.log(`${row[0]}, ${row[1]}`);
+  });
+  return Promise.resolve(rows);
 }
 
-
-export const integrationSheets =
-    functions.https.onRequest((request, response) => {
-      functions.logger.info("sending...!", {structuredData: true});
-      const topic = new PubSub().topic(PUB_SUB_DATA_EXPORT_TOPIC);
-      const json = {foo: "bar"};
-      topic.publishMessage({
-        json,
-      });
-      response.send("Message sent 4!");
-    });
+// export const integrationSheets =
+//     functions.https.onRequest((request, response) => {
+//       functions.logger.info("sending...!", {structuredData: true});
+//       const topic = new PubSub().topic(PUB_SUB_DATA_EXPORT_TOPIC);
+//       const json = {foo: "bar"};
+//       topic.publishMessage({
+//         json,
+//       });
+//       response.send("Message sent 4!");
+//     });
 
 export const startSheetIntegration = functions
     .region("us-central1")
@@ -62,90 +60,88 @@ export const startSheetIntegration = functions
       //        await databaseExport(sheetId);
     });
 
-const openSheet = async (sheetId: string, holidayRequest: Request) => {
-  const sheets = google.sheets({version: "v4", auth});
-  // eslint-disable-next-line max-len
-  const worksheetNames = getMonthYearNamesForDates(new Date(holidayRequest.from), new Date(holidayRequest.to));
+// const openSheet = async (sheetId: string, holidayRequest: Request) => {
+//   const sheets = google.sheets({version: "v4", auth});
+//   // eslint-disable-next-line max-len
+//   const worksheetNames =
+//   getMonthYearNamesForDates(new Date(holidayRequest.from), new Date(holidayRequest.to));
+//
+//   for (const worksheetName of worksheetNames) {
+//     const worksheetData = await openWorkSheet(sheets, worksheetName);
+//     if (worksheetData == null) {
+//       continue;
+//     }
+//     const employeeRow = findEmployeeRow(worksheetData, holidayRequest.requester);
+//
+//     // Get all days in this month that are between from and to
+//
+//     const dateColumn = findDateColumn(worksheetData, new Date(holidayRequest.from));
+//     const newCellValue = getCellValueForHolidayStatus(holidayRequest.status);
+//       // Get the columns for the dates between from and to
+//   }
+//
+//   // for each month between from and to, do the update:
+//   // get the worksheet for the month
+//   // get the row for the employee
+//   // get the columns for the dates between from and to
+//   // eslint-disable-next-line max-len
+//   // update the values for the columns to HOL / blank / ... based on the holiday request status
+// };
 
-  for (const worksheetName of worksheetNames) {
-    const worksheetData = await openWorkSheet(sheets, worksheetName);
-    if (worksheetData == null) {
-      continue;
-    }
-    const employeeRow = findEmployeeRow(worksheetData, holidayRequest.requester);
+// const getDatesInPeriodAndMonth = (month: number, from: Date, to: Date): [] => {
+//     const current = new Date(from);
+//     const days= [];
+//     while (current.getMonth() == from.getMonth() && current.getDay() <= to.getDay()) {
+//         // eslint-disable-next-line max-len
+//         days.push(current);
+//         current.setDate(current.getDate() + 1);
+//     }
+//     return days;
+// }
 
-    // Get all days in this month that are between from and to
-
-    var dateColumn = findDateColumn(worksheetData, new Date(holidayRequest.from));
-      var newCellValue = getCellValueForHolidayStatus(holidayRequest.status);
-
-      // Get the columns for the dates between from and to
-
-
-  }
-
-  // for each month between from and to, do the update:
-  // get the worksheet for the month
-  // get the row for the employee
-  // get the columns for the dates between from and to
-  // eslint-disable-next-line max-len
-  // update the values for the columns to HOL / blank / ... based on the holiday request status
-};
-
-const getDatesInPeriodAndMonth = (month: number, from: Date, to: Date): [] => {
-    const current = new Date(from);
-    const days= [];
-    while (current.getMonth() == from.getMonth() && current.getDay() <= to.getDay()) {
-        // eslint-disable-next-line max-len
-        days.push(current);
-        current.setDate(current.getDate() + 1);
-    }
-    return days;
-}
-
-const getMonthYearNamesForDates = (from: Date, to: Date): string[] => {
-  const monthYearNames = [];
-  const current = new Date(from);
-  while (current.getFullYear() <= to.getFullYear() &&
-          current.getMonth() <= to.getMonth()) {
-    // eslint-disable-next-line max-len
-    monthYearNames.push(current.toLocaleString("default", {month: "long"}) + " " + current.getFullYear());
-    current.setMonth(current.getMonth() + 1);
-  }
-  return monthYearNames;
-};
+// const getMonthYearNamesForDates = (from: Date, to: Date): string[] => {
+//   const monthYearNames = [];
+//   const current = new Date(from);
+//   while (current.getFullYear() <= to.getFullYear() &&
+//           current.getMonth() <= to.getMonth()) {
+//     // eslint-disable-next-line max-len
+//     monthYearNames.push(current.toLocaleString("default", {month: "long"}) + " " + current.getFullYear());
+//     current.setMonth(current.getMonth() + 1);
+//   }
+//   return monthYearNames;
+// };
 
 // eslint-disable-next-line camelcase,max-len
-const findEmployeeRow = (worksheetData: any[][], employeeEmail: string): number => {
-  const employeeEmailColumnIndex = 1;
-  // eslint-disable-next-line max-len
-  const employeeEmailColumn = worksheetData.map((row) => row[employeeEmailColumnIndex]);
-  return employeeEmailColumn.indexOf(employeeEmail);
-};
+// const findEmployeeRow = (worksheetData: any[][], employeeEmail: string): number => {
+//   const employeeEmailColumnIndex = 1;
+//   // eslint-disable-next-line max-len
+//   const employeeEmailColumn = worksheetData.map((row) => row[employeeEmailColumnIndex]);
+//   return employeeEmailColumn.indexOf(employeeEmail);
+// };
 
-const findDateColumn = (worksheetData: any[][], date: Date): number | null => {
+// const findDateColumn = (worksheetData: any[][], date: Date): number | null => {
+//   // convert the date in this format: dd/MM/yyyy
+//   const convertedDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+//   // Checking date format: "05/09/2023"
+//
+//   const datesRow = 2;
+//   const datesRowData = worksheetData[datesRow];
+//   return datesRowData.indexOf(convertedDate);
+// };
+//
+// // eslint-disable-next-line camelcase,max-len
+// const openWorkSheet =
+// async (sheets: sheets_v4.Sheets, worksheetName: string):Promise<any[][] | null | undefined> => {
+//   const res = await sheets.spreadsheets.values.get({
+//     spreadsheetId: OFFICE_SHEET,
+//     range: worksheetName,
+//   });
+//   return res.data.values;
+// };
 
-    // convert the date in this format: dd/MM/yyyy
-    var convertedDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-    // Checking date format: "05/09/2023"
-
-    const datesRow = 2;
-    const datesRowData = worksheetData[datesRow];
-    return datesRowData.indexOf(convertedDate);
-};
-
-// eslint-disable-next-line camelcase,max-len
- const openWorkSheet = async (sheets: sheets_v4.Sheets, worksheetName: string):Promise<any[][] | null | undefined> => {
-  const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: OFFICE_SHEET,
-    range: worksheetName,
-  });
-  return res.data.values;
-};
-
-const getCellValueForHolidayStatus(status: string): string => {
-    return status === "approved" ? "HOL" : "";
-}
+// const getCellValueForHolidayStatus(status: string): string => {
+//     return status === "approved" ? "HOL" : "";
+// }
 
 export interface Request {
     status: "pending" | "approved" | "rejected",
